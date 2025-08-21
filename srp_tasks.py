@@ -40,11 +40,12 @@ class FileTaskStorage(TaskStorage):
 # oop_tasks.py
 
 class Task:
-   def __init__(self, task_id, description, due_date=None, completed=False):
+   def __init__(self, task_id, description, due_date=None, completed=False, priority="medium"):
        self.id = task_id
        self.description = description
        self.due_date = due_date
        self.completed = completed
+       self.priority = priority  # ✅ เพิ่ม attribute ใหม่
 
    def mark_completed(self):
        self.completed = True
@@ -65,12 +66,12 @@ class TaskManager:
        self.next_id = max([t.id for t in self.tasks] + [0]) + 1 if self.tasks else 1
        print(f"Loaded {len(self.tasks)} tasks. Next ID: {self.next_id}")
 
-   def add_task(self, description, due_date=None):
-       task = Task(self.next_id, description, due_date)
+   def add_task(self, description, due_date=None, priority="medium"):
+       task = Task(self.next_id, description, due_date, priority=priority)
        self.tasks.append(task)
        self.next_id += 1
        self.storage.save_tasks(self.tasks) # Save after adding
-       print(f"Task '{description}' added.")
+       print(f"Task '{description}' addedwith priority '{priority}'.")
        return task
 
    # ... (list_tasks, get_task_by_id, mark_task_completed methods เหมือนเดิม) ...
